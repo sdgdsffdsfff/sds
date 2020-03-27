@@ -6,7 +6,7 @@ import com.didiglobal.sds.client.bean.SdsStrategy;
 import com.didiglobal.sds.client.enums.DowngradeActionType;
 
 /**
- * Created by yizhenqiang on 17/7/26.
+ * Created by manzhizhen on 17/7/26.
  */
 @SdsStrategyExecutor(sort = 600)
 public class ExceptionRateStrategyExecutor extends AbstractStrategyExecutor {
@@ -27,8 +27,7 @@ public class ExceptionRateStrategyExecutor extends AbstractStrategyExecutor {
         // 注意，在计算异常率时，分母不能直接使用访问量，需要把降级数量移除，因为降级后实际没有真正访问业务方法，不把降级数量移除将导致计算的异常率偏小
         long inputTotal = checkData.getVisitCount() - checkData.getDowngradeCount();
 
-        return inputTotal == 0 || inputTotal <= strategy.getExceptionRateStart()
-                || (checkData.getExceptionCount() + 0.0) * 100 / inputTotal <= strategy.getExceptionRateThreshold();
+        return inputTotal == 0 || (checkData.getExceptionCount() + 0.0) * 100 / inputTotal <= strategy.getExceptionRateThreshold();
     }
 
     @Override
